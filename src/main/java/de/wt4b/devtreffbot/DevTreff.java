@@ -1,0 +1,47 @@
+package de.wt4b.devtreffbot;
+
+import de.wt4b.devtreffbot.listener.guild.GuildMemberJoinListener;
+import de.wt4b.devtreffbot.listener.guild.GuildMemberRemoveListener;
+import de.wt4b.devtreffbot.security.Security;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.OnlineStatus;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
+
+import javax.security.auth.login.LoginException;
+
+public class DevTreff {
+
+    private static DevTreff instance;
+    private final JDABuilder builder;
+
+    public static void main(String[] args) throws LoginException {
+        new DevTreff();
+    }
+
+    public DevTreff() throws LoginException {
+        instance = this;
+        this.builder = JDABuilder.createDefault(Security.TOKEN);
+        this.builder.enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS);
+        this.builder.setStatus(OnlineStatus.ONLINE);
+        this.builder.setActivity(Activity.playing("programmieren"));
+
+        registerListener();
+
+        this.builder.build();
+        System.out.println("Bot startet...");
+    }
+
+    private void registerListener(){
+        this.builder.addEventListeners(new GuildMemberJoinListener());
+        this.builder.addEventListeners(new GuildMemberRemoveListener());
+    }
+
+    public static DevTreff getInstance() {
+        return instance;
+    }
+
+    public JDABuilder getBuilder() {
+        return builder;
+    }
+}

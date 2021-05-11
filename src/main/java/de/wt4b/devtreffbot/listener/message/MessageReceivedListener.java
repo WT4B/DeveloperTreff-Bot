@@ -1,6 +1,6 @@
 package de.wt4b.devtreffbot.listener.message;
 
-import net.dv8tion.jda.api.entities.Emote;
+import de.wt4b.devtreffbot.manager.EmoteManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -17,15 +17,12 @@ public class MessageReceivedListener extends ListenerAdapter {
         if(!(event.getChannel() instanceof TextChannel)) return;
         TextChannel textChannel = event.getTextChannel();
         if(textChannel.getIdLong() == 840881135280979998L){
+            EmoteManager emoteManager = EmoteManager.getInstance();
             message.addReaction("👍").queue();
             message.addReaction("👎").queue();
-            message.addReaction(getEmoteByName(guild, "accepted")).queue();
-            message.addReaction(getEmoteByName(guild, "maybe")).queue();
-            message.addReaction(getEmoteByName(guild, "declined")).queue();
+            message.addReaction(emoteManager.getEmoteByName(guild, "accepted")).queue();
+            message.addReaction(emoteManager.getEmoteByName(guild, "maybe")).queue();
+            message.addReaction(emoteManager.getEmoteByName(guild, "declined")).queue();
         }
-    }
-
-    private Emote getEmoteByName(Guild guild, String name){
-        return guild.getEmotes().stream().filter(emote -> emote.getName().contains(name)).findFirst().orElse(null);
     }
 }

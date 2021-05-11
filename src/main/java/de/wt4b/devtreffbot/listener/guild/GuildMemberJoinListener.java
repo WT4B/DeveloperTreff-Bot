@@ -1,5 +1,6 @@
 package de.wt4b.devtreffbot.listener.guild;
 
+import de.wt4b.devtreffbot.manager.EmoteManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -16,7 +17,8 @@ public class GuildMemberJoinListener extends ListenerAdapter {
         Member member = event.getMember();
         TextChannel textChannel = guild.getTextChannelById(840682766282391572L);
         if(textChannel == null) return;
-        textChannel.sendMessage(":green_circle: Hey " + member.getAsMention() + ", willkommen auf dem " + guild.getName() + " Discord.").queue();
+        EmoteManager emoteManager = EmoteManager.getInstance();
+        textChannel.sendMessage("[**+**] " + member.getAsMention() + " " + emoteManager.getEmoteAsMention(guild, "peepoHey")).queue();
         Role role = guild.getRoleById(840707990034186293L);
         if(role == null) return;
         guild.addRoleToMember(member, role).queue();

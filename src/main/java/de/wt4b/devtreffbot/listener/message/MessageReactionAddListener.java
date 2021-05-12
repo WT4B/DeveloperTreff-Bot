@@ -18,16 +18,13 @@ public class MessageReactionAddListener extends ListenerAdapter {
         TextChannel textChannel = event.getTextChannel();
         Member member = event.getMember();
         if(member == null) return;
-        System.out.println("member!=null");
         if(event.getReactionEmote().isEmoji()) return;
-        System.out.println("!=emoji");
         String emote = event.getReactionEmote().getEmote().getName();
         if(textChannel.getName().contains("vorschläge")){
             if(!emote.contains("accepted") && !emote.contains("maybe") && !emote.contains("declined")) return;
             if(member.isOwner() || member.getUser().isBot()) return;
             event.getReaction().removeReaction(member.getUser()).queue();
         }else if(textChannel.getName().contains("rollen")){
-            System.out.println("roles channel");
             if(emote.contains("java")) addRole(guild, member, "Java");
             else if(emote.contains("kotlin")) addRole(guild, member, "Kotlin");
             else if(emote.contains("html")) addRole(guild, member, "Web");

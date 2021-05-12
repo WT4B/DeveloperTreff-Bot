@@ -12,11 +12,11 @@ public class MessageReceivedListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        Guild guild = event.getGuild();
         Message message = event.getMessage();
         if(!(event.getChannel() instanceof TextChannel)) return;
         TextChannel textChannel = event.getTextChannel();
-        if(textChannel.getIdLong() == 840881135280979998L){
+        Guild guild = event.getGuild();
+        if(textChannel.getName().contains("vorschläge")){
             EmoteManager emoteManager = EmoteManager.getInstance();
             message.addReaction("👍").queue();
             message.addReaction("👎").queue();

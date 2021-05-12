@@ -1,7 +1,6 @@
 package de.wt4b.devtreffbot.listener.message;
 
-import de.wt4b.devtreffbot.reaction.ReactionChannel;
-import de.wt4b.devtreffbot.reaction.ReactionRole;
+import de.wt4b.devtreffbot.manager.RoleManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -19,25 +18,28 @@ public class MessageReactionAddListener extends ListenerAdapter {
         TextChannel textChannel = event.getTextChannel();
         Member member = event.getMember();
         if(member == null) return;
+        System.out.println("member!=null");
         if(event.getReactionEmote().isEmoji()) return;
+        System.out.println("!=emoji");
         String emote = event.getReactionEmote().getEmote().getName();
-        if(textChannel.getIdLong() == ReactionChannel.SUGGESTIONS.getChannelID()){
+        if(textChannel.getName().contains("vorschläge")){
             if(!emote.contains("accepted") && !emote.contains("maybe") && !emote.contains("declined")) return;
             if(member.isOwner() || member.getUser().isBot()) return;
             event.getReaction().removeReaction(member.getUser()).queue();
-        }else if(textChannel.getIdLong() == ReactionChannel.ROLES.getChannelID()){
-            if(emote.contains("java")) addRole(guild, member, ReactionRole.JAVA);
-            else if(emote.contains("kotlin")) addRole(guild, member, ReactionRole.KOTLIN);
-            else if(emote.contains("html")) addRole(guild, member, ReactionRole.WEB);
-            else if(emote.contains("csharp")) addRole(guild, member, ReactionRole.CSHARP);
-            else if(emote.contains("python")) addRole(guild, member, ReactionRole.PYTHON);
-            else if(emote.contains("minecraft")) addRole(guild, member, ReactionRole.MINECRAFT);
-            else if(emote.contains("github")) addRole(guild, member, ReactionRole.GITHUB);
+        }else if(textChannel.getName().contains("rollen")){
+            System.out.println("roles channel");
+            if(emote.contains("java")) addRole(guild, member, "Java");
+            else if(emote.contains("kotlin")) addRole(guild, member, "Kotlin");
+            else if(emote.contains("html")) addRole(guild, member, "Web");
+            else if(emote.contains("csharp")) addRole(guild, member, "C#");
+            else if(emote.contains("python")) addRole(guild, member, "Python");
+            else if(emote.contains("minecraft")) addRole(guild, member, "Minecraft");
+            else if(emote.contains("github")) addRole(guild, member, "GitHub");
         }
     }
 
-    private void addRole(Guild guild, Member member, ReactionRole reactionRole){
-        Role role = guild.getRoleById(reactionRole.getRoleID());
+    private void addRole(Guild guild, Member member, String roleName){
+        Role role = RoleManager.getInstance().getRoleByName(guild, roleName);
         if(role == null) return;
         guild.addRoleToMember(member, role).queue();
     }

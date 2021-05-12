@@ -1,5 +1,6 @@
 package de.wt4b.devtreffbot.listener.guild;
 
+import de.wt4b.devtreffbot.manager.ChannelManager;
 import de.wt4b.devtreffbot.manager.EmoteManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -14,7 +15,7 @@ public class GuildMemberRemoveListener extends ListenerAdapter {
     @Override
     public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
         Guild guild = event.getGuild();
-        TextChannel textChannel = guild.getTextChannelById(840682766282391572L);
+        TextChannel textChannel = ChannelManager.getInstance().getTextChannelByName(guild, "eingangshalle");
         if(textChannel == null) return;
         EmoteManager emoteManager = EmoteManager.getInstance();
         textChannel.sendMessage("[**-**] " + event.getUser().getAsMention() + " " + emoteManager.getEmoteAsMention(guild, "peepoBye")).queue();

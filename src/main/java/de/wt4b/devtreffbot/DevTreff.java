@@ -5,7 +5,9 @@ import de.wt4b.devtreffbot.listener.guild.GuildMemberRemoveListener;
 import de.wt4b.devtreffbot.listener.message.MessageReactionAddListener;
 import de.wt4b.devtreffbot.listener.message.MessageReactionRemoveListener;
 import de.wt4b.devtreffbot.listener.message.MessageReceivedListener;
+import de.wt4b.devtreffbot.manager.ChannelManager;
 import de.wt4b.devtreffbot.manager.EmoteManager;
+import de.wt4b.devtreffbot.manager.RoleManager;
 import de.wt4b.devtreffbot.security.Security;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -26,7 +28,9 @@ public class DevTreff {
 
     public DevTreff() throws LoginException {
         instance = this;
+        new ChannelManager();
         new EmoteManager();
+        new RoleManager();
 
         this.builder = JDABuilder.createDefault(Security.TOKEN);
         this.builder.enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS);

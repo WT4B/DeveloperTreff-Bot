@@ -1,7 +1,6 @@
 package de.wt4b.devtreffbot.listener.message;
 
-import de.wt4b.devtreffbot.reaction.ReactionChannel;
-import de.wt4b.devtreffbot.reaction.ReactionRole;
+import de.wt4b.devtreffbot.manager.RoleManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -21,19 +20,19 @@ public class MessageReactionRemoveListener extends ListenerAdapter {
         if(user == null) return;
         if(event.getReactionEmote().isEmoji()) return;
         String emote = event.getReactionEmote().getEmote().getName();
-        if(textChannel.getIdLong() == ReactionChannel.ROLES.getChannelID()){
-            if(emote.contains("java")) removeRole(guild, user, ReactionRole.JAVA);
-            else if(emote.contains("kotlin")) removeRole(guild, user, ReactionRole.KOTLIN);
-            else if(emote.contains("html")) removeRole(guild, user, ReactionRole.WEB);
-            else if(emote.contains("csharp")) removeRole(guild, user, ReactionRole.CSHARP);
-            else if(emote.contains("python")) removeRole(guild, user, ReactionRole.PYTHON);
-            else if(emote.contains("minecraft")) removeRole(guild, user, ReactionRole.MINECRAFT);
-            else if(emote.contains("github")) removeRole(guild, user, ReactionRole.GITHUB);
+        if(textChannel.getName().contains("rollen")){
+            if(emote.contains("java")) removeRole(guild, user, "Java");
+            else if(emote.contains("kotlin")) removeRole(guild, user, "Kotlin");
+            else if(emote.contains("html")) removeRole(guild, user, "Web");
+            else if(emote.contains("csharp")) removeRole(guild, user, "C#");
+            else if(emote.contains("python")) removeRole(guild, user, "Python");
+            else if(emote.contains("minecraft")) removeRole(guild, user, "Minecraft");
+            else if(emote.contains("github")) removeRole(guild, user, "GitHub");
         }
     }
 
-    private void removeRole(Guild guild, User user, ReactionRole reactionRole){
-        Role role = guild.getRoleById(reactionRole.getRoleID());
+    private void removeRole(Guild guild, User user, String roleName){
+        Role role = RoleManager.getInstance().getRoleByName(guild, roleName);
         if(role == null) return;
         guild.removeRoleFromMember(user.getIdLong(), role).queue();
     }

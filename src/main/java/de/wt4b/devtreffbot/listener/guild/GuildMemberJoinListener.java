@@ -1,6 +1,8 @@
 package de.wt4b.devtreffbot.listener.guild;
 
+import de.wt4b.devtreffbot.manager.ChannelManager;
 import de.wt4b.devtreffbot.manager.EmoteManager;
+import de.wt4b.devtreffbot.manager.RoleManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -15,11 +17,11 @@ public class GuildMemberJoinListener extends ListenerAdapter {
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
         Guild guild = event.getGuild();
         Member member = event.getMember();
-        TextChannel textChannel = guild.getTextChannelById(840682766282391572L);
+        TextChannel textChannel = ChannelManager.getInstance().getTextChannelByName(guild, "eingangshalle");
         if(textChannel == null) return;
         EmoteManager emoteManager = EmoteManager.getInstance();
         textChannel.sendMessage("[**+**] " + member.getAsMention() + " " + emoteManager.getEmoteAsMention(guild, "peepoHey")).queue();
-        Role role = guild.getRoleById(840707990034186293L);
+        Role role = RoleManager.getInstance().getRoleByName(guild, "User");
         if(role == null) return;
         guild.addRoleToMember(member, role).queue();
     }

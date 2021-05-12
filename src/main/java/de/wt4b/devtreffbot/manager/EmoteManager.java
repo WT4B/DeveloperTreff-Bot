@@ -16,7 +16,7 @@ public class EmoteManager {
     }
 
     public String getEmoteAsMention(Guild guild, String name){
-        return guild.getEmotes().stream().filter(emote -> emote.getName().contains(name)).findFirst().get().getAsMention();
+        return getEmoteByName(guild, name).getAsMention();
     }
 
     public static EmoteManager getInstance() {

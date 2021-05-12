@@ -2,6 +2,7 @@ package de.wt4b.devtreffbot;
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import de.wt4b.devtreffbot.commands.EmbedCommand;
+import de.wt4b.devtreffbot.commands.ReactCommand;
 import de.wt4b.devtreffbot.commands.ShutdownCommand;
 import de.wt4b.devtreffbot.listener.guild.GuildMemberJoinListener;
 import de.wt4b.devtreffbot.listener.guild.GuildMemberRemoveListener;
@@ -65,6 +66,7 @@ public class DevTreff {
 
     private void registerCommands(){
         this.commandClientBuilder.addCommand(new EmbedCommand());
+        this.commandClientBuilder.addCommand(new ReactCommand());
         this.commandClientBuilder.addCommand(new ShutdownCommand());
 
         this.builder.addEventListeners(this.commandClientBuilder.build());

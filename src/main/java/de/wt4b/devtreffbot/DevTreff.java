@@ -1,5 +1,7 @@
 package de.wt4b.devtreffbot;
 
+import com.jagrosh.jdautilities.command.CommandClientBuilder;
+import de.wt4b.devtreffbot.commands.ShutdownCommand;
 import de.wt4b.devtreffbot.listener.guild.GuildMemberJoinListener;
 import de.wt4b.devtreffbot.listener.guild.GuildMemberRemoveListener;
 import de.wt4b.devtreffbot.listener.message.MessageReactionAddListener;
@@ -21,6 +23,7 @@ public class DevTreff {
 
     private static DevTreff instance;
     private final JDABuilder builder;
+    private final CommandClientBuilder commandClientBuilder;
 
     public static void main(String[] args) throws LoginException {
         new DevTreff();
@@ -36,8 +39,14 @@ public class DevTreff {
         this.builder.enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS);
         this.builder.enableCache(CacheFlag.EMOTE);
         this.builder.setStatus(OnlineStatus.ONLINE);
-        this.builder.setActivity(Activity.playing("programmieren"));
 
+        this.commandClientBuilder = new CommandClientBuilder();
+        this.commandClientBuilder.setPrefix("!");
+        this.commandClientBuilder.setOwnerId("321878167386325003");
+        this.commandClientBuilder.setCoOwnerIds(Security.PRIVATEID);
+        this.commandClientBuilder.setActivity(Activity.playing("programmieren"));
+
+        registerCommands();
         registerListener();
 
         this.builder.build();
@@ -51,6 +60,12 @@ public class DevTreff {
         this.builder.addEventListeners(new MessageReactionAddListener());
         this.builder.addEventListeners(new MessageReactionRemoveListener());
         this.builder.addEventListeners(new MessageReceivedListener());
+    }
+
+    private void registerCommands(){
+        this.commandClientBuilder.addCommand(new ShutdownCommand());
+
+        this.builder.addEventListeners(this.commandClientBuilder.build());
     }
 
     public static DevTreff getInstance() {

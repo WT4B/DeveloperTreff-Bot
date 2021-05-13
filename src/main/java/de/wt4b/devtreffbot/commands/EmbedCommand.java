@@ -34,13 +34,13 @@ public class EmbedCommand extends Command {
                 .setColor(getColorByName(args[0]))
                 .setTitle(title.equalsIgnoreCase("null") ? null : title.replaceAll(";", " "))
                 .setDescription(description.equalsIgnoreCase("null") ? null : description.replaceAll(";", " "))
-                .setFooter("DeveloperTreff - " + Calendar.getInstance(Locale.GERMANY).getTime().toString(), event.getSelfUser().getAvatarUrl());
+                .setFooter("DeveloperTreff - " + Calendar.getInstance(Locale.GERMANY).getTime(), event.getSelfUser().getAvatarUrl());
         for(int i = 3; i < args.length; i++) {
             String field = args[i];
             String name = field.split("~")[0];
             String value = args[i].split("~")[1];
             embedBuilder.addField(name.equalsIgnoreCase("null") ? "" : name.replaceAll(";", " "),
-                    value.equalsIgnoreCase("null") ? "" : name.replaceAll(";", " "), false);
+                    value.equalsIgnoreCase("null") ? "" : value.replaceAll(";", " "), false);
         }
         event.getTextChannel().sendMessage(embedBuilder.build()).queue();
     }

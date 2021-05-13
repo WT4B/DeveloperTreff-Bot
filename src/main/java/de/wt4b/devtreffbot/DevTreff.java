@@ -18,6 +18,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
@@ -40,6 +41,7 @@ public class DevTreff {
 
         this.builder = JDABuilder.createDefault(Security.TOKEN);
         this.builder.enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS);
+        this.builder.setChunkingFilter(ChunkingFilter.include(676507006827364397L, 837250708934754343L));
         this.builder.enableCache(CacheFlag.EMOTE);
         this.builder.setStatus(OnlineStatus.ONLINE);
 

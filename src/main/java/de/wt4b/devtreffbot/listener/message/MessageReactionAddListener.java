@@ -25,6 +25,7 @@ public class MessageReactionAddListener extends ListenerAdapter {
             if(member.isOwner() || member.getUser().isBot()) return;
             event.getReaction().removeReaction(member.getUser()).queue();
         }else if(textChannel.getName().contains("rollen")){
+            if(member.getUser().isBot()) return;
             if(emote.contains("java")) addRole(guild, member, "Java");
             else if(emote.contains("kotlin")) addRole(guild, member, "Kotlin");
             else if(emote.contains("html")) addRole(guild, member, "Web");
